@@ -127,7 +127,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
       action = iptables[name=HTTP, port=http, protocol=tcp]
       ```
       - time period in seconds in which we're counting "retries" (5 mins)<br/>
-    More info: https://smeretech.com/how-to-ban-http-dos-attacks-with-fail2ban/ 
+  More info: https://smeretech.com/how-to-ban-http-dos-attacks-with-fail2ban/ 
   25. Modify /etc/ssh/shhd_config so that LogLevel says VERBOSE to prevent ssh DOSing.
   26. Create a filter file http-get-dos that has specifications in the jail.local file (above). The jail heading in square brackets in jail.local file         identifies the filter being used. Filter holds the definition of the regular expression for parsing the log file. Location of the filter file:           etc/fail2ban/filters.d/http-get-dos.conf. 
         Contents of this file:
