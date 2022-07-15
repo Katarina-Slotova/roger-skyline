@@ -11,16 +11,16 @@ You can follow this step-by-step guide if you need help setting up your web serv
 ### Getting the installations & initial configs done
   2. Install sudo, it is not pre-installed (su -> apt-get update -> apt-get upgrade -y -> apt-get install sudo -y)
   3. Check disk partitioning with parted-command
-    - Install parted, it is not pre-installed (sudo apt-get)
-    - Run “sudo parted” command
-    - Run “print” to see partitions
-    - For seeing partitions displayed in specific unit, run “unit GB/GiB print” (*Something to pay attention to: If partitions checked with lsblk, they         display sizes in GiB, NOT GB*). 
+     - Install parted, it is not pre-installed (sudo apt-get)
+     - Run “sudo parted” command
+     - Run “print” to see partitions
+     - For seeing partitions displayed in specific unit, run “unit GB/GiB print” (*Something to pay attention to: If partitions checked with lsblk, they         display sizes in GiB, NOT GB*). 
   4. Create a non-root user to connect to the VM. Use sudo, with this user, to be able to perform operations requiring special rights.
-    - Modify user privileges in sudoers file located in ~/etc/sudoers
-    - First, temporarily change the permissions of this file (initially, it only has read right) by using “chmod +w sudoers”
-    - Open sudoers file with nano, go to user privileges and add: username ALL=(ALL:ALL) ALL to have superuser privileges (like root)
-    - Put the permissions back to only read with “chmod -w sudoers”
-    - Exit root
+      - Modify user privileges in sudoers file located in ~/etc/sudoers
+      - First, temporarily change the permissions of this file (initially, it only has read right) by using “chmod +w sudoers”
+      - Open sudoers file with nano, go to user privileges and add: username ALL=(ALL:ALL) ALL to have superuser privileges (like root)
+      - Put the permissions back to only read with “chmod -w sudoers”
+      - Exit root
   5. Install the net-tools package, which contains network tools (like ip, ifconfig, …) with “sudo apt-get install -y net-tools”
 
 <hr>
@@ -38,10 +38,12 @@ You can follow this step-by-step guide if you need help setting up your web serv
      - Since there are 5 rows with 6 PC in each, it is safe to use 15 and 16
   9. Location of network configuration: /etc/networks/interfaces file. As the primary network interface, I set “auto enp0s3”. 
   10. It is better to set your own configuration in a separate file located in configurations.d directory. The interfaces file will load whatever               additional config file stored there. In the /etc/networks/interfaces.d directory, create a separate file called enp0s3.conf. In that file, it is         necessary to add:
+      ```
      *iface enp0s3 inet static
       address 10.13.15.16
       netmask 255.255.255.252 (netmask must be set to /30, this specifies the correct netmask: https://www.aelius.com/njh/subnet_sheet.html)
       gateway 10.13.254.254 (find the gateway with route -n get default | grep "gateway" | cut -d ":" -f2)*
+      ```
   11. To apply the changes, restart the networking service with “sudo systemctl restart networking”.
   12. To check if the changes are applied, check the static IP with  “ip a”.
 
