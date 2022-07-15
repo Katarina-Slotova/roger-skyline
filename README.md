@@ -93,8 +93,8 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
 <ins>IPS</ins> (Intrusion Prevention System)
   - technology that examines network traffic, detects malicious inputs, prevents different attacks
   - placed just behind the firewall
-  - sends alarms, drops malicious packets, blocks offending IP addresses
-<br/>
+  - sends alarms, drops malicious packets, blocks offending IP addresses<br/>
+
 <ins>Fail2ban</ins>
   - IPS package, prevents malicious attacks
   - reads the log files (e.g. /var/log/apache/error_log) and gets the offending IPs that are attempting too many failed passwords or seeking for             exploits
