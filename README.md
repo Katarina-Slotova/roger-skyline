@@ -136,7 +136,19 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
           failregex = ^<HOST> -.*"(GET).*
           ignoreregex =
         ```
+<hr>
 
+### Prevent port scanning
+What is port scanning?
+  - ports are points at which information comes and goes from a computer
+  - by scanning for open ports, attackers can find weakened pathways with which to enter your computer
+  - port scans send requests to every port, asking to connect to a network; the scan then makes note of the ports that respond and which seem vulnerable
+Port scanning provides the following information to attackers:
+  - What services are running
+  - Which users own the services
+  - If anonymous logins are allowed
+  - What network services require authentication
+More about ports and port scanning: https://www.datto.com/blog/what-is-port-scanning
 
 
 
