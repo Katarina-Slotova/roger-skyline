@@ -45,6 +45,27 @@ You can follow this step-by-step guide if you need help setting up your web serv
       gateway 10.13.254.254 (find the gateway with route -n get default | grep "gateway" | cut -d ":" -f2)*
       ```
   11. To apply the changes, restart the networking service with “sudo systemctl restart networking”.
-  12. To check if the changes are applied, check the static IP with  “ip a”.
+  12. To check if the changes are applied, check the static IP with  ```ip a```.
 
 <hr>
+
+### SSH
+  13. Turn off password authentication by <u>first</u>: copying public key from VM on the host system using command (in Mac terminal, not VM terminal):      ssh-copy-id -i id_rsa.pub katarina@static_IP_address -p 22 (in my case, static IP address is 10.13.15.16) –> this is necessary to connect to the VM      later without password; and <u>second</u> (optional) if there is a warning coming up, add VM’s fingerprint to the host system: 
+```
+ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
+```
+  14. Edit sshd_config file on VM by:
+    - changing the permissions for the file: sudo chmod +w sshd_config
+    - modify two following lines in the file:
+    ```
+    PasswordAuthentication no
+    PubkeyAuthentication yes
+    ```
+    - remove the root login by changing ```PermitRootLogin``` to no
+    - change port number in the same file to anything between 49152–65535 (these ports are used for private or customized services, for temporary             purposes, etc.). I changed it to 49999.
+  15. Remove the write permission for the file with ```sudo chmod -w sshd_config```.
+  16. Restart the service with ```sudo service ssh restart``` to apply changes.
+  17. Log in to VM from iTerm using command: ```ssh -p 49999 katarina@10.13.15.16```.
+  
+  <hr>
+
