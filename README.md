@@ -55,8 +55,8 @@ You can follow this step-by-step guide if you need help setting up your web serv
 ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
 ```
   14. Edit sshd_config file on VM by:
-    - changing the permissions for the file: sudo chmod +w sshd_config
-    - modify two following lines in the file:
+      - changing the permissions for the file: sudo chmod +w sshd_config
+      - modify two following lines in the file:
     <br/>
     ```
     PasswordAuthentication no
@@ -66,8 +66,8 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
     PubkeyAuthentication yes
     ```
     <br/>
-    - remove the root login by changing ```PermitRootLogin``` to ```no```<br/>
-    - change port number in the same file to anything between 49152–65535 (these ports are used for private or customized services, for temporary             purposes, etc.). I changed it to 49999.
+      - remove the root login by changing ```PermitRootLogin``` to ```no```
+      - change port number in the same file to anything between 49152–65535 (these ports are used for private or customized services, for temporary             purposes, etc.). I changed it to 49999.
   15. Remove the write permission for the file with ```sudo chmod -w sshd_config```.
   16. Restart the service with ```sudo service ssh restart``` to apply changes.
   17. Log in to VM from iTerm using command: ```ssh -p 49999 katarina@10.13.15.16```.
