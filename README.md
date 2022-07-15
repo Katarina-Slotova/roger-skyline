@@ -188,6 +188,7 @@ More about ports and port scanning: https://www.datto.com/blog/what-is-port-scan
   37. Portsentry logs are in the file /var/log/syslog. Check if IP got blocked with command: ```sudo tail -f /var/log/syslog``` (or just ```cat               /var/log/syslog``` to see the full syslog to know exactly at which point the IP address was banned) 
   38. Unban the IP address: ```sudo iptables -D INPUT -s <IP_ADDR> -j DROP```
 
+<hr>
 
 
 
