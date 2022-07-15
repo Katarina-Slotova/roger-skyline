@@ -59,6 +59,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
     - modify two following lines in the file:
     ```
     PasswordAuthentication no
+    
     PubkeyAuthentication yes
     ```
     - remove the root login by changing ```PermitRootLogin``` to no
