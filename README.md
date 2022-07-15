@@ -64,6 +64,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
     ```
     PubkeyAuthentication yes
     ```
+    <br/>
     - remove the root login by changing ```PermitRootLogin``` to no
     - change port number in the same file to anything between 49152–65535 (these ports are used for private or customized services, for temporary             purposes, etc.). I changed it to 49999.
   15. Remove the write permission for the file with ```sudo chmod -w sshd_config```.
