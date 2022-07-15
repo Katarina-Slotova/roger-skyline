@@ -139,9 +139,9 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
 
    27. Restart UFW (sudo ufw reload) and fail2ban (sudo service fail2ban restart)
    28. Test the fail2ban with slowloris: 
-       - install git: sudo apt-get install git
-       - install slowloris: git clone https://github.com/gkbrk/slowloris.git
-       - run: perl slowloris.py 10.13.15.16
+       - install git: ```sudo apt-get install git```
+       - install slowloris: ```git clone https://github.com/gkbrk/slowloris.git slowloris```
+       - run: ```perl slowloris.py 10.13.15.16```
       “Socket count: 0” means that the offending IP address was banned and put in jail.
       Check whether any IP address has been banned and which jail it is in with: 
       ```
