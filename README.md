@@ -77,6 +77,15 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
 ### Setting up a firewall
 <ins>UFW</ins> (Uncomplicated Firewall) is a user-friendly front-end for managing iptables firewall rules. 
 <ins>iptables</ins> is a command-line firewall utility that uses policy chains to allow or block traffic. When a connection tries to establish itself on your system, iptables looks for a rule in its list to match it to. If it doesn’t find one, it resorts to the default action.
+  - three different chains: input, forward, output (more info: https://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/)
+  18. Install UFW to set firewall rules: sudo apt install ufw
+  19. Check the status of UFW with command: sudo ufw status. If it’s inactive, it is necessary to activate it with: sudo ufw enable
+  20. When status is checked with verbose flag, it is possible to see that, by default, all incoming traffic is denied and all outgoing traffic is             allowed.
+  21. To allow SSH, HTTP and HTTPS incoming traffic, it must be expressly allowed by setting up firewall rules:
+      - sudo ufw allow 49999/tcp - allows SSH connection on my port 49999
+      - sudo ufw allow 80/tcp - HTTP listens on port 80
+      - sudo ufw allow 443/tcp - HTTPS listens on port 443
+        - these ports are connected with TCP (Transfer Control Protocol), so I must change the protocol to TCP specifically. TCP is more secure for data         transmission than UDP.
 
 <hr>
 
