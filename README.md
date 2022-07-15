@@ -149,7 +149,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
       sudo fail2ban-client status sshd
       ```
       <ins>Note</ins>: when starting the VM, it is necessary to start UFW and fail2ban (see point no. 27 above).
-    29. If I don’t want to wait 5 minutes for IP to get automatically unbanned, I can use command:
+   29. If I don’t want to wait 5 minutes for IP to get automatically unbanned, I can use command:
         - sudo fail2ban-client set <JAIL_NAME> unbanip <MY_STATIC_IP>
       - jail name is usually http-get-dos, but it can also be sshd. It can be figured out by using the commands in point 28 above.
       <ins>Note</ins>: after unbanning the IP (either automatically or manually), it is necessary to reload the firewall and restart fail2ban again (see       point 27 for commands).
