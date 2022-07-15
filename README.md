@@ -38,7 +38,6 @@ You can follow this step-by-step guide if you need help setting up your web serv
      - Since there are 5 rows with 6 PC in each, it is safe to use 15 and 16
   9. Location of network configuration: /etc/networks/interfaces file. As the primary network interface, I set “auto enp0s3”. 
   10. It is better to set your own configuration in a separate file located in configurations.d directory. The interfaces file will load whatever               additional config file stored there. In the /etc/networks/interfaces.d directory, create a separate file called enp0s3.conf. In that file, it is         necessary to add:
-      ```
      *iface enp0s3 inet static
       address 10.13.15.16
       netmask 255.255.255.252 (netmask must be set to /30, this specifies the correct netmask: https://www.aelius.com/njh/subnet_sheet.html)
