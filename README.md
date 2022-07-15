@@ -58,8 +58,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
     - changing the permissions for the file: sudo chmod +w sshd_config
     - modify two following lines in the file:
     ```
-    PasswordAuthentication no
-    
+    PasswordAuthentication no<br/>
     PubkeyAuthentication yes
     ```
     - remove the root login by changing ```PermitRootLogin``` to no
