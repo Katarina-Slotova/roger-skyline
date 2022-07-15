@@ -3,5 +3,41 @@ Hive Helsinki school project focusing on initiation to system and network admini
 
 You can follow this step-by-step guide if you need help setting up your web server! I included few tips to make the work a bit easier.
 
-### 1. Setting up the VM
-For the project, we will need 8GB (fixed size) virtual hard drive. Do the disk partitioning with one part of precisely 4.2GB (1 GB for swap and the rest for the third part).
+### Setting up the VM
+  1. For the project, we will need 8GB (fixed size) virtual hard drive. Do the disk partitioning with one part of precisely 4.2GB (1 GB for swap and the rest for the third part).
+
+### Getting the installations & initial configs done
+  2. Install sudo, it is not pre-installed (su -> apt-get update -> apt-get upgrade -y -> apt-get install sudo -y)
+  3. Check disk partitioning with parted-command
+    a. Install parted, it is not pre-installed (sudo apt-get)
+    b. Run “sudo parted” command
+    c. Run “print” to see partitions
+    d. For seeing partitions displayed in specific unit, run “unit GB/GiB print” (*Something to pay attention to: If partitions checked with lsblk, they         display sizes in GiB, NOT GB*). 
+  4. Create a non-root user to connect to the VM. Use sudo, with this user, to be able to perform operations requiring special rights.
+    a. Modify user privileges in sudoers file located in ~/etc/sudoers
+    b. First, temporarily change the permissions of this file (initially, it only has read right) by using “chmod +w sudoers”
+    c. Open sudoers file with nano, go to user privileges and add: username ALL=(ALL:ALL) ALL to have superuser privileges (like root)
+    d. Put the permissions back to only read with “chmod -w sudoers”
+    e. Exit root
+  5. Install the net-tools package, which contains network tools (like ip, ifconfig, …) with “sudo apt-get install -y net-tools”
+
+### Setting up a static IP address
+  6. First, find the name of your network device with “ip -c link show”
+     a. ip - net-tool used for configuring network interfaces
+     b. -c - shows the result in pretty colors, so it’s easier to read (optional)
+     c. link show - Shows the state of all network interfaces on the system
+  7. From the result, it is possible to see at least two devices (*lo for loopback device - typically used for diagnostics and troubleshooting AND            another one, with name like enp0s3*).
+  8. Now configure the enp0s3 device to use a specified static IP address, such as 10.13.15.16.
+     a. The first part 10.13 refers to Hive computers located in cluster 3
+     b. The third part would specify row
+     c. The fourth part would specify computer 
+     d. Since there are 5 rows with 6 PC in each, it is safe to use 15 and 16
+  9. Location of network configuration: /etc/networks/interfaces file. As the primary network interface, I set “auto enp0s3”. 
+  10. It is better to set your own configuration in a separate file located in configurations.d directory. The interfaces file will load whatever               additional config file stored there. In the /etc/networks/interfaces.d directory, create a separate file called enp0s3.conf. In that file, it is         necessary to add:
+     *iface enp0s3 inet static
+      address 10.13.15.16
+      netmask 255.255.255.252 (netmask must be set to /30, this specifies the correct netmask: https://www.aelius.com/njh/subnet_sheet.html)
+      gateway 10.13.254.254 (find the gateway with route -n get default | grep "gateway" | cut -d ":" -f2)*
+  11. To apply the changes, restart the networking service with “sudo systemctl restart networking”.
+  12. To check if the changes are applied, check the static IP with  “ip a”.
+
