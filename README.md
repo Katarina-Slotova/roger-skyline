@@ -137,7 +137,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
           ignoreregex =
         ```
 
-   27. Restart UFW (sudo ufw reload) and fail2ban (sudo service fail2ban restart)
+   27. Restart UFW with ```sudo ufw reload``` and fail2ban with ```sudo service fail2ban restart```
    28. Test the fail2ban with slowloris: 
        - install git: ```sudo apt-get install git```
        - install slowloris: ```git clone https://github.com/gkbrk/slowloris.git slowloris```
@@ -170,7 +170,27 @@ Port scanning provides the following information to attackers:
 
 More about ports and port scanning: https://www.datto.com/blog/what-is-port-scanning
 
-  27
+  30. Install portsentry: ```apt-get update && apt-get install portsentry```
+  31. We use portsentry in advanced mode for the TCP and UDP protocols. To set the advanced mode, file /etc/default/portsentry must be modified to have:
+      ```
+      TCP_MODE="atcp"
+      UDP_MODE="audp"
+      ```
+  32. Block malicious persons through iptables. Comment out all lines of the configuration file that begin with KILL_ROUTE except this one:  ```KILL_ROUTE="/sbin/iptables -I INPUT -s $TARGET$ -j DROP"```
+  33. Comment out the KILL_HOSTS_DENY, too:
+      ```
+      KILL_HOSTS_DENY="ALL: $TARGET$"
+      KILL_HOSTS_DENY="ALL: $TARGET$ : DENY"
+      ```
+  34. Install nmap to test the port scanning protection: ```sudo apt-get install nmap```
+  35. Launch service portsentry: ```sudo service portsentry restart```
+  36. Run ```nmap <IP_ADDR>``` (in my case, 10.13.15.16)
+  37. Portsentry logs are in the file /var/log/syslog. Check if IP got blocked with command: ```sudo tail -f /var/log/syslog``` (or just ```cat               /var/log/syslog``` to see the full syslog to know exactly at which point the IP address was banned) 
+  38. Unban the IP address: ```sudo iptables -D INPUT -s <IP_ADDR> -j DROP```
+
+
+
+
 
 
 
