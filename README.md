@@ -50,7 +50,7 @@ You can follow this step-by-step guide if you need help setting up your web serv
 <hr>
 
 ### SSH
-  13. Turn off password authentication by <u>first</u>: copying public key from VM on the host system using command (in Mac terminal, not VM terminal):      ssh-copy-id -i id_rsa.pub katarina@static_IP_address -p 22 (in my case, static IP address is 10.13.15.16) –> this is necessary to connect to the VM      later without password; and <u>second</u> (optional) if there is a warning coming up, add VM’s fingerprint to the host system: 
+  13. Turn off password authentication by <ins>first</ins>: copying public key from VM on the host system using command (in Mac terminal, not VM terminal):      ssh-copy-id -i id_rsa.pub katarina@static_IP_address -p 22 (in my case, static IP address is 10.13.15.16) –> this is necessary to connect to the VM      later without password; and <ins>second</ins> (optional) if there is a warning coming up, add VM’s fingerprint to the host system: 
 ```
 ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
 ```
@@ -75,8 +75,8 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
   <hr>
 
 ### Setting up a firewall
-<u>UFW</u> (Uncomplicated Firewall) is a user-friendly front-end for managing iptables firewall rules. 
-<u>iptables</u> is a command-line firewall utility that uses policy chains to allow or block traffic. When a connection tries to establish itself on your system, iptables looks for a rule in its list to match it to. If it doesn’t find one, it resorts to the default action.
+<ins>UFW</ins> (Uncomplicated Firewall) is a user-friendly front-end for managing iptables firewall rules. 
+<ins>iptables</ins> is a command-line firewall utility that uses policy chains to allow or block traffic. When a connection tries to establish itself on your system, iptables looks for a rule in its list to match it to. If it doesn’t find one, it resorts to the default action.
 
 <hr>
 
