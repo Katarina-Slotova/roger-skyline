@@ -6,6 +6,8 @@ You can follow this step-by-step guide if you need help setting up your web serv
 ### Setting up the VM
   1. For the project, we will need 8GB (fixed size) virtual hard drive. Do the disk partitioning with one part of precisely 4.2GB (1 GB for swap and the rest for the third part).
 
+<br/>
+
 ### Getting the installations & initial configs done
   2. Install sudo, it is not pre-installed (su -> apt-get update -> apt-get upgrade -y -> apt-get install sudo -y)
   3. Check disk partitioning with parted-command
@@ -20,6 +22,8 @@ You can follow this step-by-step guide if you need help setting up your web serv
     d. Put the permissions back to only read with “chmod -w sudoers”
     e. Exit root
   5. Install the net-tools package, which contains network tools (like ip, ifconfig, …) with “sudo apt-get install -y net-tools”
+
+<br/>
 
 ### Setting up a static IP address
   6. First, find the name of your network device with “ip -c link show”
@@ -41,3 +45,4 @@ You can follow this step-by-step guide if you need help setting up your web serv
   11. To apply the changes, restart the networking service with “sudo systemctl restart networking”.
   12. To check if the changes are applied, check the static IP with  “ip a”.
 
+<br/>
