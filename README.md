@@ -60,6 +60,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
     ```
     PasswordAuthentication no
     ```
+    <br/>
     ```
     PubkeyAuthentication yes
     ```
