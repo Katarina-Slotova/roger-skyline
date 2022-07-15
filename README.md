@@ -136,6 +136,24 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
           failregex = ^<HOST> -.*"(GET).*
           ignoreregex =
         ```
+
+   27. Restart UFW (sudo ufw reload) and fail2ban (sudo service fail2ban restart)
+   28. Test the fail2ban with slowloris: 
+       - install git: sudo apt-get install git
+       - install slowloris: git clone https://github.com/gkbrk/slowloris.git
+       - run: perl slowloris.py 10.13.15.16
+      “Socket count: 0” means that the offending IP address was banned and put in jail.
+      Check whether any IP address has been banned and which jail it is in with: 
+      ```
+      sudo fail2ban-client status http-get-dos
+      sudo fail2ban-client status sshd
+      ```
+      <ins>Note</ins>: when starting the VM, it is necessary to start UFW and fail2ban (see point no. 27 above).
+    29. If I don’t want to wait 5 minutes for IP to get automatically unbanned, I can use command:
+        - sudo fail2ban-client set <JAIL_NAME> unbanip <MY_STATIC_IP>
+      - jail name is usually http-get-dos, but it can also be sshd. It can be figured out by using the commands in point 28 above.
+      <ins>Note</ins>: after unbanning the IP (either automatically or manually), it is necessary to reload the firewall and restart fail2ban again (see       point 27 for commands).
+
 <hr>
 
 ### Prevent port scanning
@@ -149,7 +167,10 @@ Port scanning provides the following information to attackers:
   - Which users own the services
   - If anonymous logins are allowed
   - What network services require authentication
+
 More about ports and port scanning: https://www.datto.com/blog/what-is-port-scanning
+
+  27
 
 
 
