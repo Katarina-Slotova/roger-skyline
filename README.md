@@ -74,3 +74,14 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
   
   <hr>
 
+### Setting up a firewall
+<u>UFW</u> (Uncomplicated Firewall) is a user-friendly front-end for managing iptables firewall rules. 
+<u>iptables</u> is a command-line firewall utility that uses policy chains to allow or block traffic. When a connection tries to establish itself on your system, iptables looks for a rule in its list to match it to. If it doesn’t find one, it resorts to the default action.
+
+<hr>
+
+
+
+
+
+
