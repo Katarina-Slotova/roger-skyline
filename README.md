@@ -101,31 +101,31 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
   22. Install Fail2ban with ```sudo apt install fail2ban```
   23. Modify jail.conf file located in etc/fail2ban folder. Before doing so, it is necessary to make a copy of that file and modify the copy. Otherwise,       the jail.conf will reset itself to default. Make a copy by using: ```sudo cp jail.conf jail.local```.
   24. Modify jail.local file by configuring SSH like this:
-    ```
-    [sshd]
-    enabled = true
-    port    = ssh 
-    logpath = %(sshd_log)s
-    backend = %(sshd_backend)s
-    maxretry = 3 
-    bantime = 600
-    ```
-    - maxretry defines the number of failed login attempts before being blocked by fail2ban
-    - time an IP will be blocked after making a specific amount of failed attempts to the server
+      ```
+      [sshd]
+      enabled = true
+      port    = ssh 
+      logpath = %(sshd_log)s
+      backend = %(sshd_backend)s
+      maxretry = 3 
+      bantime = 600
+      ```
+      - maxretry defines the number of failed login attempts before being blocked by fail2ban
+      - time an IP will be blocked after making a specific amount of failed attempts to the server
 
-    Then configure the #HTTP servers part by adding this part (I added it to the beginning of that section):
-    ```
-    http-get-dos]
-    enabled = true
-    port = http,https
-    filter = http-get-dos
-    logpath = /var/log/apache2/access.log
-    maxretry = 300
-    findtime = 300
-    bantime = 600
-    action = iptables[name=HTTP, port=http, protocol=tcp]
-    ```
-    - time period in seconds in which we're counting "retries" (5 mins)
+      Then configure the #HTTP servers part by adding this part (I added it to the beginning of that section):
+      ```
+      http-get-dos]
+      enabled = true
+      port = http,https
+      filter = http-get-dos
+      logpath = /var/log/apache2/access.log
+      maxretry = 300
+      findtime = 300
+      bantime = 600
+      action = iptables[name=HTTP, port=http, protocol=tcp]
+      ```
+      - time period in seconds in which we're counting "retries" (5 mins)
     More info: https://smeretech.com/how-to-ban-http-dos-attacks-with-fail2ban/ 
     25. Modify /etc/ssh/shhd_config so that LogLevel says VERBOSE to prevent ssh DOSing.
     26. Create a filter file http-get-dos that has specifications in the jail.local file (above). The jail heading in square brackets in jail.local file         identifies the filter being used. Filter holds the definition of the regular expression for parsing the log file. Location of the filter file:           etc/fail2ban/filters.d/http-get-dos.conf. 
