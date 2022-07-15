@@ -57,6 +57,7 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
   14. Edit sshd_config file on VM by:
     - changing the permissions for the file: sudo chmod +w sshd_config
     - modify two following lines in the file:
+    <br/>
     ```
     PasswordAuthentication no
     ```
