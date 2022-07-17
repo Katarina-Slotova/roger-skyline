@@ -229,10 +229,10 @@ ufw.service               		enabled enabled
   ```
   45. Now modify crontab by opening crontab with ```crontab -e``` (-e is for edit).
   46. At the end of crontab, add the scheduled task so that the update happens at 4AM once a week and upon machine’s reboot:
-  ```
-	0 4 * * 0 /usr/local/bin/update.sh
-	@reboot /usr/local/bin/update.sh
-  ```
+			```
+			0 4 * * 0 /usr/local/bin/update.sh
+			@reboot /usr/local/bin/update.sh
+			```
   
   Nice explanation with furher info here: https://www.youtube.com/watch?v=ZdYrZTew0Gs&ab_channel=Hackpens 
 
@@ -240,23 +240,7 @@ ufw.service               		enabled enabled
 
 ### Monitor changes of the /etc/crontab file and send an email to root if it has been modified
 
-	47. Install the postfix email software: sudo apt-get install postfix mailutils
-	48. Choose local only and set system mail name to <ins>debian.lan</ins>. Then in /etc/aliases, edit this: root: root@debian.lan
-	49. Enable aliases by: sudo newaliases
-	50. Now test and see if mailing works with: echo “something” | mail -s “whatever text here” root
-			<ins>(Note to the above syntax: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be 				the subject)</ins>
-	51. Log in as root and check the emails with mail
-	52. Create the script that will check for the changes to /etc/crontab. Save the script in an .sh file (e.g. monitor_cron.sh) into /usr/local/bin 						folder.
-			
-			#!/bin/bash
 
-			DIFF=$(diff /etc/crontab.monit /etc/crontab)
-			cp /etc/crontab /etc/crontab.monit
-			if [ "$DIFF" != "" ]; then
-				echo "Crontab modified, notifying root by email." | mail -s "Crontab modified" root
-			fi
-			
-To run the script above regularly every day at midnight, it must be scheduled in /etc/crontab: 0 0 * * * /usr/local/bin/monitor_cron.sh
 
 <hr>
 
