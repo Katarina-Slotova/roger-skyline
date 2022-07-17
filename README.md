@@ -190,6 +190,54 @@ More about ports and port scanning: https://www.datto.com/blog/what-is-port-scan
 
 <hr>
 
+### Stop unnecessary services 
+  39. List all the services: ```sudo systemctl list-unit-files --type service --state=enabled```
+  40. To disable a service, use command: ```sudo systemctl disable <NAME_OF_SERVICE>```
+  
+My list of services:
+```
+UNIT FILE                 		STATE   VENDOR PRESET
+apache2.service          	enabled enabled
+apparmor.service         	enabled enabled
+cron.service              	  	enabled enabled
+console-setup.service   	enabled enabled
+e2scrub_reap.service      	enabled enabled
+fail2ban.service          		enabled enabled
+getty@.service            	enabled enabled
+networking.service        	enabled enabled
+nginx.service             		enabled enabled
+keyboard-setup.service	enabled enabled
+postfix.service           		enabled enabled
+rsyslog.service           		enabled enabled
+ssh.service               		enabled enabled
+systemd-pstore.service    	enabled enabled
+systemd-timesyncd.service 	enabled enabled
+ufw.service               		enabled enabled
+
+16 unit files listed.
+```
+  41. I disabled ```console-setup.service``` and ```keyboard-setup.service```.
+
+### Script that updates packages
+  42. Create the .sh file in ```/usr/local/bin``` folder, e.g. update.sh (NOT in /usr/bin, but in usr/local/bin; /usr/bin is where binaries supplied by the OS       go, and /usr/local/bin is where user supplied binaries go).
+  43. It is necessary to give executable permission to the owner: ```chmod +x update.sh```
+  44. Put the following script inside the update.sh file:
+  ```
+  #!/bin/bash
+  sudo apt-get update >> /var/log/update_script.log
+  sudo apt-get upgrade -y >> /var/log/update_script.log
+  ```
+  45. Now modify crontab by opening crontab with ```crontab -e``` (-e is for edit).
+  46. At the end of crontab, add the scheduled task so that the update happens at 4AM once a week and upon machine’s reboot:
+  ```
+	0 4 * * 0 /usr/local/bin/update.sh
+	@reboot /usr/local/bin/update.sh
+  ```
+  
+  Nice explanation with furher info here: https://www.youtube.com/watch?v=ZdYrZTew0Gs&ab_channel=Hackpens 
+
+<hr>
+
 
 
 
