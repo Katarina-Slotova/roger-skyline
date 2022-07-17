@@ -240,7 +240,7 @@ ufw.service               		enabled enabled
 
 ### Monitor changes of the /etc/crontab file and send an email to root if it has been modified
 
-	47. Install the postfix email software: ```sudo apt-get install postfix mailutils```
+	47. Install the postfix email software: sudo apt-get install postfix mailutils
 	48. Choose local only and set system mail name to <ins>debian.lan</ins>.. Then in /etc/aliases, edit this: ```root: root@debian.lan```
 	49. Enable aliases by: ```sudo newaliases```
 	50. Now test and see if mailing works with: ```echo “something” | mail -s “whatever text here” root```
