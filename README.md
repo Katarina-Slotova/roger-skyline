@@ -230,7 +230,7 @@ ufw.service               		enabled enabled
   45. Now modify crontab by opening crontab with ```crontab -e``` (-e is for edit).
   46. At the end of crontab, add the scheduled task so that the update happens at 4AM once a week and upon machine’s reboot:
 			```
-			0 4 * * 0 /usr/local/bin/update.sh</br>
+			0 4 * * 0 /usr/local/bin/update.sh
 			@reboot /usr/local/bin/update.sh
 			```
   
@@ -238,7 +238,7 @@ ufw.service               		enabled enabled
 
 <hr>
 
-### Monitor changes of the /etc/crontab file and send an email to root if it has been modified
+Monitor changes of the /etc/crontab file and send an email to root if it has been modified
 
 	47. Install the postfix email software: sudo apt-get install postfix mailutils
 	48. Choose local only and set system mail name to <ins>debian.lan</ins>. Then in /etc/aliases, edit this: root: root@debian.lan
