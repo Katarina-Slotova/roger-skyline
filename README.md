@@ -247,18 +247,17 @@ ufw.service               		enabled enabled
 	<ins>(Note to the above syntax: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the 		subject)</ins>
 	51. Log in as root and check the emails with ```mail```
 	52. Create the script that will check for the changes to /etc/crontab. Save the script in an .sh file (e.g. monitor_cron.sh) into /usr/local/bin 						folder.
-	```
-	#!/bin/bash
+			```
+			#!/bin/bash
 
-	DIFF=$(diff /etc/crontab.monit /etc/crontab)
-	cp /etc/crontab /etc/crontab.monit
-	if [ "$DIFF" != "" ]; then
-        	echo "Crontab modified, notifying root by email." | mail -s "Crontab modified" root
-	fi
-	```
+			DIFF=$(diff /etc/crontab.monit /etc/crontab)
+			cp /etc/crontab /etc/crontab.monit
+			if [ "$DIFF" != "" ]; then
+				echo "Crontab modified, notifying root by email." | mail -s "Crontab modified" root
+			fi
+			```
 
-To run the script above regularly every day at midnight, it must be scheduled in /etc/crontab:
-```0 0 * * * /usr/local/bin/monitor_cron.sh```
+To run the script above regularly every day at midnight, it must be scheduled in /etc/crontab: ```0 0 * * * /usr/local/bin/monitor_cron.sh```
 
 <hr>
 
