@@ -231,6 +231,7 @@ ufw.service               		enabled enabled
   46. At the end of crontab, add the scheduled task so that the update happens at 4AM once a week and upon machine’s reboot:
 			```
 			0 4 * * 0 /usr/local/bin/update.sh
+			
 			@reboot /usr/local/bin/update.sh
 			```
   
