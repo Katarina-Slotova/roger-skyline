@@ -12,7 +12,7 @@ You can follow this step-by-step guide if you need help setting up your web serv
 
 ### Getting the installations & initial configs done
   2. Install sudo, it is not pre-installed (```su``` -> ```apt-get update``` -> ```apt-get upgrade -y``` -> ```apt-get install sudo -y```)
-  3. Check disk partitioning with ````parted```
+  3. Check disk partitioning with ```parted```
      - Install parted, it is not pre-installed with ```sudo apt-get```
      - Run ```sudo parted```
      - Run ```print``` to see partitions
