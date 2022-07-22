@@ -264,7 +264,7 @@ cp /etc/crontab /etc/crontab.monit
 ## Web part
 
 ### Setting up the server
-  I chose nginx for my server. In case it is not yet installed, it can be easily installed with ```sudo apt-get install nginx```.
+I chose nginx for my server. In case it is not yet installed, it can be easily installed with ```sudo apt-get install nginx```.
   54. Nginx comes with a default _index.html_ website located in ```/var/www/html```.
   55. Change the settings in ```/etc/nginx/sites-enabled``` so that the server does not listen to localhost (127.0.0.1) - this requirement comes from         evaluation form. To achieve that, delete _listen 80 default_server;_ and change _listen [::]:80 default_server;_ to _listen <YOU_IP_GOES_HERE>:80       default_server;_ (e.g. in my case it would be _listen 10.13.15.17:80 default_server;_).
 
