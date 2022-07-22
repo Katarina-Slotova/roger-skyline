@@ -238,6 +238,32 @@ ufw.service               		enabled enabled
 
 <hr>
 
+### Monitor changes of the /etc/crontab file and send an email to root if it has been modified
+  47. Install the postfix email software with ```sudo apt-get install postfix mailutils```.
+  48. Choose local only and set system mail name to ```debian.lan```. Then in /etc/aliases, edit this: ```root: root@debian.lan```.
+  49. Enable aliases with ```sudo newaliases```.
+  50. Now test and see if mailing works with ```echo “something” | mail -s “whatever text here” root```.
+  <ins>(Note to the syntax above: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the     subject)</ins>
+  51. Log in as root and check the emails with ```mail```.
+  52. Create the script that will check for the changes of /etc/crontab. Save the script in an .sh file (e.g. monitor_cron.sh) into /usr/local/bin             folder. My script looks like this, fo example:
+```
+#!/bin/bash
+
+DIFF=$(diff /etc/crontab.monit /etc/crontab)
+if [ "$DIFF" != "" ]; then
+        echo "Crontab modified, notifying root by email." | mail -s "Crontab modified" root
+fi
+cp /etc/crontab /etc/crontab.monit
+```
+  53. To run the script above regularly every day at midnight, it must be scheduled in /etc/crontab: ```0 0 * * * /usr/local/bin/monitor_cron.sh```
+
+<hr>
+
+  
+  
+
+
+
 
 
 
