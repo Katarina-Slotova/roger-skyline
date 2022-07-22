@@ -3,6 +3,8 @@ Hive Helsinki school project focusing on initiation to system and network admini
 
 You can follow this step-by-step guide if you need help setting up your web server! I included few tips to make the work a bit easier.
 
+## Network & security
+
 ### Setting up the VM
   1. For the project, we will need 8GB (fixed size) virtual hard drive. Do the disk partitioning with one part of precisely 4.2GB (1 GB for swap and the rest for the third part).
 
@@ -243,7 +245,7 @@ ufw.service               		enabled enabled
   48. Choose local only and set system mail name to ```debian.lan```. Then in /etc/aliases, edit this: ```root: root@debian.lan```.
   49. Enable aliases with ```sudo newaliases```.
   50. Now test and see if mailing works with ```echo “something” | mail -s “whatever text here” root```.
-  _(Note to the syntax above: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the         subject)_
+  _(Note to the syntax: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the               subject)_
   52. Log in as root and check the emails with ```mail```.
   53. Create the script that will check for the changes of /etc/crontab. Save the script in an .sh file (e.g. monitor_cron.sh) into /usr/local/bin             folder. My script looks like this, fo example:
 ```
@@ -259,8 +261,11 @@ cp /etc/crontab /etc/crontab.monit
 
 <hr>
 
-  
-  
+## Web part
+
+### Setting up the server
+I chose nginx for my server. In case it is not yet installed, it can be easily installed with ```sudo apt-get install nginx```.
+
 
 
 
