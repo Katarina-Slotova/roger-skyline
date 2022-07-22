@@ -265,6 +265,28 @@ cp /etc/crontab /etc/crontab.monit
 
 ### Setting up the server
 I chose nginx for my server. In case it is not yet installed, it can be easily installed with ```sudo apt-get install nginx```.
+  54. Nginx comes with a default _index.html_ website located in ```/var/www/html```.
+  55. Change the settings in ```/etc/nginx/sites-enabled``` so that the server does not listen to localhost (127.0.0.1) - this requirement comes from         evaluation form. To achieve that, delete _listen 80 default_server;_ and change _listen [::]:80 default_server;_ to _listen <YOU_IP_GOES_HERE>:80       default_server;_ (e.g. in my case it would be _listen 10.13.15.17:80 default_server;_).
+
+### Self-signed SSL Certificate
+I followed this guide: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-debian-10
+
+### Deployment
+My deployment script checks for changes in html file. If there are any, it makes a backup and deploys the modified index.html (i.e. update of the website happens).
+```
+#!/bin/bash
+DIFF=$(diff /var/www/html/index.nginx-debian.html /var/www/backup/index.backup.html)
+if [ "$DIFF" != "" ]; then
+    cat /var/www/html/index.nginx-debian.html > /var/www/backup/index.backup.html
+    sudo cp /var/www/backup/index.backup.html /var/www/html/index.nginx-debian.html
+    echo "Website modified, creating backup of index.html..."
+    echo "Backup created, deploying now..."
+    echo "Deployment done!"
+fi
+```
+
+
+ 
 
 
 
