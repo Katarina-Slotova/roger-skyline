@@ -17,7 +17,7 @@
     - give privileges to new user with ```sudo usermod -aG sudo <NEW_USER_NAME>```
     - log in with the new user’s credentials and run the commands below to copy the public key to the new user’s .ssh directory, then give permissions to the file
       - ```mkdir ~/.ssh```
-      - ```sudo cp /home/katarina/.ssh/authorized_keys /home/new_user/.ssh/```
+      - ```sudo cp /home/REPLACE_WITH_YOUR_USERNAME/.ssh/authorized_keys /home/new_user/.ssh/```
       - ```sudo chmod 644 /home/new_user/.ssh/authorized_keys```
       - connect from iTerm with the new user’s credentials
 - for __DHCP__ service:
