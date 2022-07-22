@@ -201,21 +201,21 @@ You can read more about ports and port scanning [here](https://www.datto.com/blo
 My list of services:
 ```
 UNIT FILE                 		STATE   VENDOR PRESET
-apache2.service          	    enabled enabled
-apparmor.service              enabled enabled
-cron.service              	  enabled enabled
-console-setup.service   	    enabled enabled
-e2scrub_reap.service      	  enabled enabled
+apache2.service          	      enabled enabled
+apparmor.service                    enabled enabled
+cron.service              	      enabled enabled
+console-setup.service   	      enabled enabled
+e2scrub_reap.service      	      enabled enabled
 fail2ban.service          		enabled enabled
-getty@.service            	  enabled enabled
-networking.service        	  enabled enabled
+getty@.service            	      enabled enabled
+networking.service        	      enabled enabled
 nginx.service             		enabled enabled
-keyboard-setup.service	      enabled enabled
+keyboard-setup.service	            enabled enabled
 postfix.service           		enabled enabled
 rsyslog.service           		enabled enabled
 ssh.service               		enabled enabled
-systemd-pstore.service    	  enabled enabled
-systemd-timesyncd.service 	  enabled enabled
+systemd-pstore.service    	      enabled enabled
+systemd-timesyncd.service 	      enabled enabled
 ufw.service               		enabled enabled
 
 16 unit files listed.
