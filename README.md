@@ -11,53 +11,55 @@ You can follow this step-by-step guide if you need help setting up your web serv
 <hr>
 
 ### Getting the installations & initial configs done
-  2. Install sudo, it is not pre-installed (su -> apt-get update -> apt-get upgrade -y -> apt-get install sudo -y)
-  3. Check disk partitioning with parted-command
-     - Install parted, it is not pre-installed (sudo apt-get)
-     - Run “sudo parted” command
-     - Run “print” to see partitions
-     - For seeing partitions displayed in specific unit, run “unit GB/GiB print” (*Something to pay attention to: If partitions checked with lsblk, they         display sizes in GiB, NOT GB*). 
+  2. Install sudo, it is not pre-installed (```su``` -> ```apt-get update``` -> ```apt-get upgrade -y``` -> ```apt-get install sudo -y```)
+  3. Check disk partitioning with ````parted```
+     - Install parted, it is not pre-installed with ```sudo apt-get```
+     - Run ```sudo parted```
+     - Run ```print``` to see partitions
+     - For seeing partitions displayed in specific unit, run ```unit GB/GiB print``` (*Something to pay attention to: If partitions checked with lsblk,        they display sizes in GiB, NOT GB*). 
   4. Create a non-root user to connect to the VM. Use sudo, with this user, to be able to perform operations requiring special rights.
-      - Modify user privileges in sudoers file located in ~/etc/sudoers
-      - First, temporarily change the permissions of this file (initially, it only has read right) by using “chmod +w sudoers”
-      - Open sudoers file with nano, go to user privileges and add: username ALL=(ALL:ALL) ALL to have superuser privileges (like root)
-      - Put the permissions back to only read with “chmod -w sudoers”
+      - Modify user privileges in sudoers file located in ```~/etc/sudoers```
+      - First, temporarily change the permissions of this file (initially, it only has read right) by using ```chmod +w sudoers```
+      - Open sudoers file with nano, go to user privileges and add ```username ALL=(ALL:ALL) ALL``` to have superuser privileges (like root)
+      - Put the permissions back to only read with ```chmod -w sudoers```
       - Exit root
-  5. Install the net-tools package, which contains network tools (like ip, ifconfig, …) with “sudo apt-get install -y net-tools”
+  5. Install the net-tools package, which contains network tools (like ip, ifconfig, …) with ```sudo apt-get install -y net-tools```
 
 <hr>
 
 ### Setting up a static IP address
-  6. First, find the name of your network device with “ip -c link show”
+  6. First, find the name of your network device with ```ip -c link show```
      - ip - net-tool used for configuring network interfaces
      - -c - shows the result in pretty colors, so it’s easier to read (optional)
      - link show - Shows the state of all network interfaces on the system
   7. From the result, it is possible to see at least two devices (*lo for loopback device - typically used for diagnostics and troubleshooting AND            another one, with name like enp0s3*).
-  8. Now configure the enp0s3 device to use a specified static IP address, such as 10.13.15.16.
+  8. Now configure the enp0s3 device to use a specified static IP address, such as 10.13.15.17.
+     - Calculate the available IP address [here](https://jodies.de/ipcalc).
      - The first part 10.13 refers to Hive computers located in cluster 3
      - The third part would specify row
      - The fourth part would specify computer 
-     - Since there are 5 rows with 6 PC in each, it is safe to use 15 and 16
-  9. Location of network configuration: /etc/networks/interfaces file. As the primary network interface, I set “auto enp0s3”. 
-  10. It is better to set your own configuration in a separate file located in configurations.d directory. The interfaces file will load whatever               additional config file stored there. In the /etc/networks/interfaces.d directory, create a separate file called enp0s3.conf. In that file, it is         necessary to add:
+     - Since there are 5 rows with 6 PC in each, it is safe to use 15 and 17
+     - To make extra sure the address is available, use ```ping <IP_ADDR_HERE>```
+  9. Location of network configuration: ```/etc/networks/interfaces file```. As the primary network interface, I set “auto enp0s3”. 
+  10. It is better to set your own configuration in a separate file located in configurations.d directory. The interfaces file will load whatever               additional config file stored there. In the ```/etc/networks/interfaces.d directory```, create a separate file called enp0s3.conf. In that file,         it is necessary to add:
       ```
       *iface enp0s3 inet static
-      address 10.13.15.16
-      netmask 255.255.255.252 (netmask must be set to /30, this specifies the correct netmask: https://www.aelius.com/njh/subnet_sheet.html)
+      address 10.13.15.17
+      netmask 255.255.255.252 (netmask must be set to /30, this specifies the correct [netmask](https://www.aelius.com/njh/subnet_sheet.html))
       gateway 10.13.254.254 (find the gateway with route -n get default | grep "gateway" | cut -d ":" -f2)*
       ```
-  11. To apply the changes, restart the networking service with “sudo systemctl restart networking”.
+  11. To apply the changes, restart the networking service with ```sudo systemctl restart networking```.
   12. To check if the changes are applied, check the static IP with  ```ip a```.
 
 <hr>
 
 ### SSH
-  13. Turn off password authentication by <ins>first</ins>: copying public key from VM on the host system using command (in Mac terminal, not VM terminal):      ssh-copy-id -i id_rsa.pub katarina@static_IP_address -p 22 (in my case, static IP address is 10.13.15.16) –> this is necessary to connect to the VM      later without password; and <ins>second</ins> (optional) if there is a warning coming up, add VM’s fingerprint to the host system: 
+  13. Turn off password authentication by <ins>first</ins>: copying public key from VM on the host system using command (in Mac terminal, not VM               terminal): ```ssh-copy-id -i id_rsa.pub katarina@STATIC_IP_HERE -p 22``` (in my case, static IP address is 10.13.15.17) –> this is necessary to         connect to the VM later without password; and <ins>second</ins> (optional) if there is a warning coming up, add VM’s fingerprint to the host             system: 
 ```
-ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
+ssh-keyscan -H 10.13.15.17 >> ~/.ssh/known_hosts
 ```
   14. Edit sshd_config file on VM by:
-      - changing the permissions for the file: sudo chmod +w sshd_config
+      - changing the permissions for the file with ```sudo chmod +w sshd_config```
       - modify two following lines in the file:
     <br/>
     ```
@@ -72,14 +74,14 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
       - change port number in the same file to anything between 49152–65535 (these ports are used for private or customized services, for temporary             purposes, etc.). I changed it to 49999.
   15. Remove the write permission for the file with ```sudo chmod -w sshd_config```.
   16. Restart the service with ```sudo service ssh restart``` to apply changes.
-  17. Log in to VM from iTerm using command: ```ssh -p 49999 katarina@10.13.15.16```.
+  17. Log in to VM from iTerm using command: ```ssh -p 49999 katarina@10.13.15.17```.
   
   <hr>
 
 ### Setting up a firewall
 <ins>UFW</ins> (Uncomplicated Firewall) is a user-friendly front-end for managing iptables firewall rules.<br/>
 <ins>iptables</ins> is a command-line firewall utility that uses policy chains to allow or block traffic. When a connection tries to establish itself on your system, iptables looks for a rule in its list to match it to. If it doesn’t find one, it resorts to the default action.
-  - three different chains: input, forward, output (more info: https://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/)
+  - three different chains: input, forward, output (more info [here](https://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/)).
   18. Install UFW to set firewall rules: ```sudo apt install ufw```
   19. Check the status of UFW with command: ```sudo ufw status```. If it’s inactive, it is necessary to activate it with: ```sudo ufw enable```
   20. When status is checked with verbose flag, it is possible to see that, by default, all incoming traffic is denied and all outgoing traffic is             allowed.
@@ -122,28 +124,28 @@ ssh-keyscan -H 10.13.11.14 >> ~/.ssh/known_hosts
       enabled = true
       port = http,https
       filter = http-get-dos
-      logpath = /var/log/apache2/access.log
-      maxretry = 300
+      logpath = /var/log/nginx/access.log
+      maxretry = 3
       findtime = 300
       bantime = 600
       action = iptables[name=HTTP, port=http, protocol=tcp]
       ```
       - time period in seconds in which we're counting "retries" (5 mins)<br/>
-  More info: https://smeretech.com/how-to-ban-http-dos-attacks-with-fail2ban/ 
-  25. Modify /etc/ssh/shhd_config so that LogLevel says VERBOSE to prevent ssh DOSing.
-  26. Create a filter file http-get-dos that has specifications in the jail.local file (above). The jail heading in square brackets in jail.local file         identifies the filter being used. Filter holds the definition of the regular expression for parsing the log file. Location of the filter file:           etc/fail2ban/filters.d/http-get-dos.conf. 
-        Contents of this file:
-        ```
-        [Definition]
-          failregex = ^<HOST> -.*"(GET).*
-          ignoreregex =
-        ```
+  More info [here](https://smeretech.com/how-to-ban-http-dos-attacks-with-fail2ban/) 
+  25. Modify ```/etc/ssh/shhd_config``` so that ```LogLevel``` says VERBOSE to prevent ssh DOSing.
+  26. Create a filter file ```http-get-dos that``` has specifications in the jail.local file (above). The jail heading in square brackets in jail.local       file identifies the filter being used. Filter holds the definition of the regular expression for parsing the log file. Location of the filter           file: ```etc/fail2ban/filters.d/http-get-dos.conf```. 
+      Contents of this file:
+      ```
+      [Definition]
+        failregex = ^<HOST> -.*"(GET).*
+        ignoreregex =
+      ```
 
    27. Restart UFW with ```sudo ufw reload``` and fail2ban with ```sudo service fail2ban restart```
    28. Test the fail2ban with slowloris: 
        - install git: ```sudo apt-get install git```
        - install slowloris: ```git clone https://github.com/gkbrk/slowloris.git slowloris```
-       - run: ```perl slowloris.py 10.13.15.16```
+       - run: ```perl slowloris.py 10.13.15.17```
       “Socket count: 0” means that the offending IP address was banned and put in jail.
       Check whether any IP address has been banned and which jail it is in with: 
       ```
@@ -170,7 +172,7 @@ Port scanning provides the following information to attackers:
   - If anonymous logins are allowed
   - What network services require authentication
 
-More about ports and port scanning: https://www.datto.com/blog/what-is-port-scanning
+You can read more about ports and port scanning [here](https://www.datto.com/blog/what-is-port-scanning).
 
   30. Install portsentry: ```apt-get update && apt-get install portsentry```
   31. We use portsentry in advanced mode for the TCP and UDP protocols. To set the advanced mode, file /etc/default/portsentry must be modified to have:
@@ -186,7 +188,7 @@ More about ports and port scanning: https://www.datto.com/blog/what-is-port-scan
       ```
   34. Install nmap to test the port scanning protection: ```sudo apt-get install nmap```
   35. Launch service portsentry: ```sudo service portsentry restart```
-  36. Run ```nmap <IP_ADDR>``` (in my case, 10.13.15.16)
+  36. Run ```nmap <IP_ADDR>``` (in my case, 10.13.15.17)
   37. Portsentry logs are in the file /var/log/syslog. Check if IP got blocked with command: ```sudo tail -f /var/log/syslog``` (or just ```cat               /var/log/syslog``` to see the full syslog to know exactly at which point the IP address was banned) 
   38. Unban the IP address: ```sudo iptables -D INPUT -s <IP_ADDR> -j DROP```
 
@@ -199,21 +201,21 @@ More about ports and port scanning: https://www.datto.com/blog/what-is-port-scan
 My list of services:
 ```
 UNIT FILE                 		STATE   VENDOR PRESET
-apache2.service          	enabled enabled
-apparmor.service         	enabled enabled
-cron.service              	  	enabled enabled
-console-setup.service   	enabled enabled
-e2scrub_reap.service      	enabled enabled
+apache2.service          	    enabled enabled
+apparmor.service              enabled enabled
+cron.service              	  enabled enabled
+console-setup.service   	    enabled enabled
+e2scrub_reap.service      	  enabled enabled
 fail2ban.service          		enabled enabled
-getty@.service            	enabled enabled
-networking.service        	enabled enabled
+getty@.service            	  enabled enabled
+networking.service        	  enabled enabled
 nginx.service             		enabled enabled
-keyboard-setup.service	enabled enabled
+keyboard-setup.service	      enabled enabled
 postfix.service           		enabled enabled
 rsyslog.service           		enabled enabled
 ssh.service               		enabled enabled
-systemd-pstore.service    	enabled enabled
-systemd-timesyncd.service 	enabled enabled
+systemd-pstore.service    	  enabled enabled
+systemd-timesyncd.service 	  enabled enabled
 ufw.service               		enabled enabled
 
 16 unit files listed.
@@ -236,7 +238,7 @@ ufw.service               		enabled enabled
 @reboot /usr/local/bin/update.sh
 ```
   
-  Nice explanation with furher info here: https://www.youtube.com/watch?v=ZdYrZTew0Gs&ab_channel=Hackpens 
+  Nice explanation with furher information in this [video](https://www.youtube.com/watch?v=ZdYrZTew0Gs&ab_channel=Hackpens).
 
 <hr>
 
@@ -269,7 +271,7 @@ I chose nginx for my server. In case it is not yet installed, it can be easily i
    55. Change the settings in ```/etc/nginx/sites-enabled``` so that the server does not listen to localhost (127.0.0.1) - this requirement comes from         evaluation form. To achieve that, delete _listen 80 default_server;_ and change _listen [::]:80 default_server;_ to _listen <YOU_IP_GOES_HERE>:80       default_server;_ (e.g. in my case it would be _listen 10.13.15.17:80 default_server;_).
 
 ### Self-signed SSL Certificate
-I followed this guide: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-debian-10
+I followed [this](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-debian-10) guide.
 
 ### Deployment
 My deployment script checks for changes in html file. If there are any, it makes a backup and deploys the modified index.html (i.e. update of the website happens).
@@ -284,20 +286,3 @@ if [ "$DIFF" != "" ]; then
     echo "Deployment done!"
 fi
 ```
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
