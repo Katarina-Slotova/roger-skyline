@@ -1,5 +1,5 @@
 # roger-skyline
-Hive Helsinki school project focusing on initiation to system and network administration. I installed a Virtual Machine, learned about the basics of system and network administration, configured a web server, protected it from DOS attacks and port scans and wrote a simple deployment script. All of the work was done on Debian machine.
+Hive Helsinki school project focusing on initiation to system and network administration. I installed a Virtual Machine, learned about the basics of system and network administration, configured a web server, protected it from DOS attacks and port scans and wrote a simple deployment script. All of the work was done on Debian.
 
 You can follow this step-by-step guide if you need help setting up your web server! I included few tips to make the work a bit easier.
 
