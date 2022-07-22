@@ -225,12 +225,7 @@ ufw.service               		enabled enabled
 ### Script that updates packages
   42. Create the .sh file in ```/usr/local/bin``` folder, e.g. update.sh (NOT in /usr/bin, but in usr/local/bin; /usr/bin is where binaries supplied by the OS go, and /usr/local/bin is where user supplied binaries go).
   43. It is necessary to give executable permission to the owner: ```chmod +x update.sh```
-  44. Put the following script inside the update.sh file:
-  ```
-  #!/bin/bash
-  sudo apt-get update >> /var/log/update_script.log
-  sudo apt-get upgrade -y >> /var/log/update_script.log
-  ```
+  44. To see the the updating script, have a look at ```update.sh``` file.
   45. Now modify crontab by opening crontab with ```crontab -e``` (-e is for edit).
   46. At the end of crontab, add the scheduled task so that the update happens at 4AM once a week and upon machine’s reboot:
 ```
@@ -249,16 +244,7 @@ ufw.service               		enabled enabled
   50. Now test and see if mailing works with ```echo “something” | mail -s “whatever text here” root```.
   _(Note to the syntax: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the               subject)_
   52. Log in as root and check the emails with ```mail```.
-  53. Create the script that will check for the changes of ```/etc/crontab```. Save the script in an .sh file (e.g. monitor_cron.sh) into                     ```/usr/local/bin``` folder. My script looks like this, fo example:
-```
-#!/bin/bash
-
-DIFF=$(diff /etc/crontab.monit /etc/crontab)
-if [ "$DIFF" != "" ]; then
-        echo "Crontab modified, notifying root by email." | mail -s "Crontab modified" root
-fi
-cp /etc/crontab /etc/crontab.monit
-```
+  53. Create the script that will check for the changes of ```/etc/crontab```. Save the script in an .sh file (e.g. monitor_cron.sh) into                     ```/usr/local/bin``` folder. To see my script, have a look at the ```monitor_cron.sh``` file.
   53. To run the script above regularly every day at midnight, it must be scheduled in /etc/crontab: ```0 0 * * * /usr/local/bin/monitor_cron.sh```
 
 <hr>
@@ -274,15 +260,4 @@ I chose nginx for my server. In case it is not yet installed, it can be easily i
 I followed [this](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-debian-10) guide.
 
 ### Deployment
-My deployment script checks for changes in html file. If there are any, it makes a backup and deploys the modified index.html (i.e. update of the website happens). I save it directly in the root directory.
-```
-#!/bin/bash
-DIFF=$(diff /var/www/html/index.nginx-debian.html /var/www/backup/index.backup.html)
-if [ "$DIFF" != "" ]; then
-    cat /var/www/html/index.nginx-debian.html > /var/www/backup/index.backup.html
-    sudo cp /var/www/backup/index.backup.html /var/www/html/index.nginx-debian.html
-    echo "Website modified, creating backup of index.html..."
-    echo "Backup created, deploying now..."
-    echo "Deployment done!"
-fi
-```
+My deployment script checks for changes in html file. If there are any, it makes a backup and deploys the modified index.html (i.e. update of the website happens). I save it directly in the root directory. To see the script, have alook at the ```deploy.sh``` file.
