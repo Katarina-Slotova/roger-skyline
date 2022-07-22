@@ -243,7 +243,7 @@ ufw.service               		enabled enabled
   48. Choose local only and set system mail name to ```debian.lan```. Then in /etc/aliases, edit this: ```root: root@debian.lan```.
   49. Enable aliases with ```sudo newaliases```.
   50. Now test and see if mailing works with ```echo “something” | mail -s “whatever text here” root```.
-  <ins>(Note to the syntax above: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the     subject)</ins>
+  _(Note to the syntax above: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the         subject)_
   51. Log in as root and check the emails with ```mail```.
   52. Create the script that will check for the changes of /etc/crontab. Save the script in an .sh file (e.g. monitor_cron.sh) into /usr/local/bin             folder. My script looks like this, fo example:
 ```
