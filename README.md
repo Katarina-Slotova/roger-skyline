@@ -120,7 +120,7 @@ ssh-keyscan -H 10.13.15.17 >> ~/.ssh/known_hosts
 
       Then configure the #HTTP servers part by adding this part (I added it to the beginning of that section):
       ```
-      http-get-dos]
+      [http-get-dos]
       enabled = true
       port = http,https
       filter = http-get-dos
@@ -249,7 +249,7 @@ ufw.service               		enabled enabled
   50. Now test and see if mailing works with ```echo “something” | mail -s “whatever text here” root```.
   _(Note to the syntax: whatever comes after echo is going to be the text of the email and whatever comes after the pipe is going to be the               subject)_
   52. Log in as root and check the emails with ```mail```.
-  53. Create the script that will check for the changes of /etc/crontab. Save the script in an .sh file (e.g. monitor_cron.sh) into /usr/local/bin             folder. My script looks like this, fo example:
+  53. Create the script that will check for the changes of ```/etc/crontab```. Save the script in an .sh file (e.g. monitor_cron.sh) into                     ```/usr/local/bin``` folder. My script looks like this, fo example:
 ```
 #!/bin/bash
 
