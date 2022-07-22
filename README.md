@@ -205,7 +205,7 @@ apache2.service          	        enabled enabled
 apparmor.service                        enabled enabled
 cron.service              	        enabled enabled
 console-setup.service   	        enabled enabled
-e2scrub_reap.service      	       enabled enabled
+e2scrub_reap.service      	        enabled enabled
 fail2ban.service          		enabled enabled
 getty@.service            	        enabled enabled
 networking.service        	        enabled enabled
