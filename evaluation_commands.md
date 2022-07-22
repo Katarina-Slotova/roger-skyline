@@ -37,7 +37,7 @@
   ```sudo ufw status```
 - __DOS__
   - use slowloris
-  - to unban IP: sudo fail2ban-client set http-get-dos unbanip <YOUR_IP_HERE>
+  - to unban IP: ```sudo fail2ban-client set http-get-dos unbanip <YOUR_IP_HERE>```
 - check open __ports__
   ```sudo netstat -tulpn```
 - list enabled __services__
