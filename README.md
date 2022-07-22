@@ -274,7 +274,7 @@ I chose nginx for my server. In case it is not yet installed, it can be easily i
 I followed [this](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-debian-10) guide.
 
 ### Deployment
-My deployment script checks for changes in html file. If there are any, it makes a backup and deploys the modified index.html (i.e. update of the website happens).
+My deployment script checks for changes in html file. If there are any, it makes a backup and deploys the modified index.html (i.e. update of the website happens). I save it directly in the root directory.
 ```
 #!/bin/bash
 DIFF=$(diff /var/www/html/index.nginx-debian.html /var/www/backup/index.backup.html)
